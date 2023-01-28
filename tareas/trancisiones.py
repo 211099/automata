@@ -13,7 +13,7 @@ trancisiones = [#ES,EL,ES
 
 
 
-fecha = "311"
+fecha = "31"
 estados_finales = [4,5,7]
 
 # Ejemplo con un argumento
@@ -25,28 +25,28 @@ def leer_trancisiones():
 
     print("estado actual: ", estado_actual)
     
+    if len(fecha) == 2:
+        for elemento in fecha:
+            for i in range(6):
+                
+                if estado_actual == trancisiones[i][0]:
+                    if elemento in trancisiones[i][1]:
+                        estado_actual = trancisiones[i][2]
+                        print("estado actual: ", estado_actual)
+                        i = 6
     
-    for elemento in fecha:
-        for i in range(6):
 
-            if estado_actual == trancisiones[i][0]:
-
-                if elemento in trancisiones[i][1]:
-
-                    estado_actual = trancisiones[i][2]
-                    print("estado actual: ", estado_actual)
-                    i = 6
                
            
     
     
             
 
-leer_trancisiones()   
+   
 # for i in range(10, 33):
 #     fecha_int = int(fecha)
 #     auxiliar = fecha_int + 1
 #     auxiliar_str = str(auxiliar)
 #     fecha = auxiliar_str
 #     print(fecha)
-
+leer_trancisiones()
