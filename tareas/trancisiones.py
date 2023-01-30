@@ -1,5 +1,4 @@
 import PyPDF2
-import PyPDF2
 from  tkinter import *
 from tkinter import filedialog
 trancisiones = [#ES,EL,ES
@@ -83,7 +82,6 @@ trancisiones = [#ES,EL,ES
                 [55,["0","1","2","3","4","5","6","7","8","9"],56],
                 [57,["1","2","3","4","5","6","7","8","9"],58],
                 ] 
-fecha = "21-02-01"
 alfabeto = ["0","1","2","3","4","5","6","7","8","9","-","/"]
 estados_finales = [54,58,56]
 datos2 = []
@@ -97,7 +95,7 @@ def leer_trancisiones():
     global auxiliar_str
     global cadenas_recopiladas
     global bandera 
-    bandera = 0
+    bandera = ""
     cadenas_recopiladas = []
     guardar_o_no_guardar = True 
     auxiliar_str = ""
@@ -105,29 +103,39 @@ def leer_trancisiones():
     print("estado actual: ", estado_actual)
 
     for bandera in range(numero_palabras):
+
         for elemento in datos2[bandera]:
-            if elemento in alfabeto:    
+            # # print("lONGITUD:" + elemento)
+            if (elemento in alfabeto and (elemento.strip())):    
                 if validar_estado_trancision():
-                    for i in range(79):
+                    for i in range(78):
                             if estado_actual == trancisiones[i][0]:
                                 if elemento in trancisiones[i][1]:
                                     estado_actual = trancisiones[i][2]
-                                    print("estado actual: ", estado_actual)
+                                    #print("estado actual: ", estado_actual)
                                     auxiliar_str = auxiliar_str +  elemento
+                                    #print(guardar_o_no_guardar == True,"::",estado_actual in estados_finales,"::", len(auxiliar_str) == len(datos2[bandera]),"::","hay espacio: ", " " in datos2[bandera])
+                                    print(len(auxiliar_str), "::", len(datos2[bandera]))
+                                    print(auxiliar_str, "::", datos2[bandera])
                                     if guardar_o_no_guardar == True and estado_actual in estados_finales and len(auxiliar_str) == len(datos2[bandera]):
-                                        print("si")
+                                    #    print("si")
                                         cadenas_recopiladas.append(auxiliar_str)
+                                        estado_actual = 1
+                                        auxiliar_str = ""
                                     break
+                           
                 else:
                     print("cadena no valida ")
                     guardar_o_no_guardar = False
+                    
+                    
             else:
                 break
         estado_actual = 1
         auxiliar_str = ""
                     
 def validar_estado_trancision():
-     for i in  range(80):
+     for i in  range(78):
         if estado_actual == trancisiones[i][0]:
             print ("estado actual: ", estado_actual, "transicion: ", trancisiones[i][0] )
             return True
@@ -137,6 +145,7 @@ def txt_palabras():
     with open('holamundo.txt', 'r', encoding="utf-8") as file:
         for line in file:
             datos2.extend(line.split(" "))
+            
     numero_palabras = len(datos2)
 
 def leer_archivo(archivo):
@@ -147,16 +156,16 @@ def leer_archivo(archivo):
         page_obj = pdf_reader.getPage(page)
         text = page_obj.extract_text()
         f.write(text.strip())
-        f.close()
+    f.close()
 
 def abrirArchivo():
     global archivo
-    archivo = filedialog.askopenfilename(title="abrir", initialdir="C:/", filetypes=(("Archivos de Texto",".txt"),("Archivos pdf", ".pdf")))
+    archivo = filedialog.askopenfilename(title="abrir", initialdir="C:/", filetypes=(("Archivos de Texto",".txt"), ("Archivos pdf", ".pdf")))
     leer_archivo(archivo)
     txt_palabras()
     leer_trancisiones()
     print(cadenas_recopiladas)
-    text.insert(INSERT, cadenas_recopiladas)
+    text.insert(INSERT, cadenas_recopiladas, "\n")
    
 def main(): 
     global text   
