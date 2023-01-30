@@ -82,8 +82,8 @@ trancisiones = [#ES,EL,ES
 
 
 
-fecha = "21-02-2022"
-
+fecha = "21-02-01"
+alfabeto = ["0","1","2","3","4","5","6","7","8","9","-","/"]
 estados_finales = [54,58,56,58]
 
 
@@ -100,13 +100,17 @@ def leer_trancisiones():
 
     for elemento in fecha:
         if validar_estado_trancision():
-            for i in range(78):
-                if estado_actual == trancisiones[i][0]:
-                    if elemento in trancisiones[i][1]:
-                        estado_actual = trancisiones[i][2]
-                        print("estado actual: ", estado_actual)
-                        auxiliar_str = auxiliar_str +  elemento
-                        break
+            for i in range(79):
+                if elemento in alfabeto:
+                    if estado_actual == trancisiones[i][0]:
+                        if elemento in trancisiones[i][1]:
+                            estado_actual = trancisiones[i][2]
+                            print("estado actual: ", estado_actual)
+                            auxiliar_str = auxiliar_str +  elemento
+                            break
+                else:
+                    print("no se encuentra en el alfabeto")
+                    break
         else:
             print("cadena no valida ")
             guardar_o_no_guardar = False
@@ -119,11 +123,19 @@ def leer_trancisiones():
                        
 #la funcion valida si existe alguna trancision que salga del estado actual
 def validar_estado_trancision():
-     for i in  range(78):
+     for i in  range(79):
         if estado_actual == trancisiones[i][0]:
             print ("estado actual: ", estado_actual, "transicion: ", trancisiones[i][0] )
             return True
             break
+
+
+# def txt_palabras():
+#     global datos2
+#     datos2 = []
+# with open('holamundo.txt', 'r', encoding="utf-8") as file:
+#     for line in file:
+#         datos2.extend(line.split(" "))
        
 
 
