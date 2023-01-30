@@ -151,7 +151,7 @@ def leer_archivo(archivo):
 
 def abrirArchivo():
     global archivo
-    archivo = filedialog.askopenfilename(title="abrir", initialdir="C:/", filetypes=(("Archivos pdf", ".pdf")))
+    archivo = filedialog.askopenfilename(title="abrir", initialdir="C:/", filetypes=(("Archivos de Texto",".txt"),("Archivos pdf", ".pdf")))
     leer_archivo(archivo)
     txt_palabras()
     leer_trancisiones()
