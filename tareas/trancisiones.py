@@ -95,68 +95,97 @@ def leer_trancisiones():
     global auxiliar_str
     global cadenas_recopiladas
     global bandera 
-    bandera = ""
+    bandera = 0
     cadenas_recopiladas = []
     guardar_o_no_guardar = True 
     auxiliar_str = ""
     estado_actual = 1
     print("estado actual: ", estado_actual)
 
+    #bandera se incrementa asta el numero total de palabras que hay
     for bandera in range(numero_palabras):
 
+        # elemento es el caracter de la palabra almacenada en datos[bandera2]
         for elemento in datos2[bandera]:
-            # # print("lONGITUD:" + elemento)
-            if (elemento in alfabeto and (elemento.strip())):    
+
+            #valida si el caracter leido existe en el alfabeto si no cancela todo el for e inica con la siguiente palabra
+            if (elemento in alfabeto):    
+
+                #valida si desde el estado actual sale una transicion en el caso de que no 
                 if validar_estado_trancision():
+
+                    #iteracion con el numero de trancisiones
                     for i in range(78):
+
+                            #si encuentra el estado actual 
                             if estado_actual == trancisiones[i][0]:
+
+                                #busca en cual transiciones tomara con base al elemento
                                 if elemento in trancisiones[i][1]:
+
+                                    #ya que lo encontro el estado actual pasa a ser el estado final despues del elemento
                                     estado_actual = trancisiones[i][2]
-                                    #print("estado actual: ", estado_actual)
                                     auxiliar_str = auxiliar_str +  elemento
-                                    #print(guardar_o_no_guardar == True,"::",estado_actual in estados_finales,"::", len(auxiliar_str) == len(datos2[bandera]),"::","hay espacio: ", " " in datos2[bandera])
                                     print(len(auxiliar_str), "::", len(datos2[bandera]))
                                     print(auxiliar_str, "::", datos2[bandera])
+                                    
+                                    
                                     if guardar_o_no_guardar == True and estado_actual in estados_finales and len(auxiliar_str) == len(datos2[bandera]):
-                                    #    print("si")
+                                   
                                         cadenas_recopiladas.append(auxiliar_str)
                                         estado_actual = 1
                                         auxiliar_str = ""
+
                                     break
-                           
+
+                #si validar_Estado_trancision es false la cadena no es valida           
                 else:
                     print("cadena no valida ")
+                    estado_actual = 1
+                    auxiliar_str = ""
                     guardar_o_no_guardar = False
                     
-                    
+            # si el elemento no esta en el alfabeto termina la balabra completa       
             else:
+                estado_actual = 1
+                auxiliar_str = ""
                 break
+
+
         estado_actual = 1
         auxiliar_str = ""
                     
+
+
 def validar_estado_trancision():
      for i in  range(78):
         if estado_actual == trancisiones[i][0]:
             print ("estado actual: ", estado_actual, "transicion: ", trancisiones[i][0] )
             return True
-            break
+
+
+
 def txt_palabras():
     global numero_palabras
-    with open('holamundo.txt', 'r', encoding="utf-8") as file:
-        for line in file:
-            datos2.extend(line.split(" "))
-            
+    with open('texto-pdf.txt', 'r', encoding="utf-8") as file:
+        contents = file.read()
+        datos2.extend(contents.split())
     numero_palabras = len(datos2)
+    
+
+
 
 def leer_archivo(archivo):
     pdf_file_obj = open(archivo, 'rb')
     pdf_reader = PyPDF2.PdfFileReader(pdf_file_obj)
-    f = open ('holamundo.txt','w', encoding="utf-8")
+    f = open ('texto-pdf.txt','w', encoding="utf-8")
     for page in range(pdf_reader.getNumPages()):
         page_obj = pdf_reader.getPage(page)
         text = page_obj.extract_text()
         f.write(text.strip())
     f.close()
+
+
 
 def abrirArchivo():
     global archivo
@@ -166,6 +195,8 @@ def abrirArchivo():
     leer_trancisiones()
     print(cadenas_recopiladas)
     text.insert(INSERT, cadenas_recopiladas, "\n")
+   
+
    
 def main(): 
     global text   
