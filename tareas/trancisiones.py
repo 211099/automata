@@ -1,6 +1,7 @@
 import PyPDF2
 from  tkinter import *
 from tkinter import filedialog
+import numpy as np 
 trancisiones = [#ES,EL,ES
                 [1,["0"],2],
                 [1,["1"],18],
@@ -126,12 +127,10 @@ def leer_trancisiones():
                                     #ya que lo encontro el estado actual pasa a ser el estado final despues del elemento
                                     estado_actual = trancisiones[i][2]
                                     auxiliar_str = auxiliar_str +  elemento
-                                    print(len(auxiliar_str), "::", len(datos2[bandera]))
-                                    print(auxiliar_str, "::", datos2[bandera])
-                                    
-                                    
+
                                     if guardar_o_no_guardar == True and estado_actual in estados_finales and len(auxiliar_str) == len(datos2[bandera]):
-                                   
+                                        print("estado final: ", estado_actual)
+                                        print("cadena valida: ", auxiliar_str)
                                         cadenas_recopiladas.append(auxiliar_str)
                                         estado_actual = 1
                                         auxiliar_str = ""
@@ -194,7 +193,7 @@ def abrirArchivo():
     txt_palabras()
     leer_trancisiones()
     print(cadenas_recopiladas)
-    text.insert(INSERT, cadenas_recopiladas, "\n")
+    text.insert(INSERT, applytoLabel(), "\n")
    
 
    
@@ -218,6 +217,14 @@ def main():
     raiz.geometry("520x480") #Configurar tamaño
     Button(raiz, text="Abrir Archivo", command=abrirArchivo).pack()
     raiz.mainloop()
+
+
+def applytoLabel():
+    n = len(cadenas_recopiladas)
+    element = ''
+    for i in range(n):
+        element = element + cadenas_recopiladas[i]+'\n' 
+    return element
    
 
 main()
